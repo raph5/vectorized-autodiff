@@ -59,13 +59,13 @@ var_t reimann_integral(var_t P[DEG+1]) {
 int main() {
   size_t runs = 10;
   float start_time, end_time;
-  var_t P[DEG+1];
 
   start_time = (float) clock() / CLOCKS_PER_SEC;
   for (size_t i = 0; i < runs; ++i) {
-    for (size_t wrt_start = 0; wrt_start < DEG+1; wrt_start += GRADLEN) {
-      poly_init(P, wrt_start, wrt_start + GRADLEN);
-      var_t v = reimann_integral(P);
+    for (size_t grad_start = 0; grad_start < DEG+1; grad_start += GRADLEN) {
+      var_t P[DEG+1];
+      poly_init(P, grad_start, grad_start + GRADLEN);
+      var_t loss = reimann_integral(P);
     }
   }
   end_time = (float) clock() / CLOCKS_PER_SEC;

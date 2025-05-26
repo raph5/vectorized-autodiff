@@ -50,12 +50,12 @@ float reimann_integral(float P[DEG+1]) {
 int main() {
   size_t runs = 10;
   float start_time, end_time;
-  float P[DEG+1];
 
   start_time = (float) clock() / CLOCKS_PER_SEC;
   for (size_t i = 0; i < runs; ++i) {
+    float P[DEG+1];
     poly_init(P);
-    reimann_integral(P);
+    float loss = reimann_integral(P);
   }
   end_time = (float) clock() / CLOCKS_PER_SEC;
 

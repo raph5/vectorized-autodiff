@@ -51,17 +51,18 @@ var_t reimann_integral(var_t P[DEG+1]) {
 
 int main() {
   size_t runs = 10;
-  var_t P[DEG+1];
+  float start_time, end_time;
 
-  float start_time = (float) clock() / CLOCKS_PER_SEC;
+  start_time = (float) clock() / CLOCKS_PER_SEC;
   for (size_t i = 0; i < 10; ++i) {
-    tape_t *tape = tape_create(64);
+    var_t P[DEG+1];
+    tape_t tape = tape_create(64);
     tape_load(tape);
     poly_init(P);
-    reimann_integral(P);
+    var_t loss = reimann_integral(P);
     tape_destroy(tape);
   }
-  float end_time = (float) clock() / CLOCKS_PER_SEC;
+  end_time = (float) clock() / CLOCKS_PER_SEC;
 
   /* print average runtime in milliseconds */
   printf("%f", (end_time - start_time) / runs * 1000);

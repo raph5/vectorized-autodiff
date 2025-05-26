@@ -3,12 +3,11 @@
 gradlen=64
 
 bench() {
-  primal=$(./primal_build_"$1")
   reverse=$(./reverse_build_"$1")
   forward=$(./forward_build_"$1")
   forward_novec=$(./forward_build_novec_"$1")
   forward_gradlen=$(./forward_build_gradlen_"$1"_"$gradlen")
-  echo "$1","$primal","$reverse","$forward","$forward_novec","$forward_gradlen"
+  echo "$1","$reverse","$forward","$forward_novec","$forward_gradlen"
 }
 
 deg=(1 2 $(seq 4 16 512))

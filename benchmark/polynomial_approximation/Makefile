@@ -29,7 +29,7 @@ forward_gradlen: forward.cpp
 	$(CC) $(CFLAGS) -DDEG=$(DEG) -DGRADLEN=$(GRADLEN) forward.cpp -o forward_build_gradlen_$(DEG)_$(GRADLEN)
 
 # use -j option to run build in parallel
-build: primal reverse forward forward_novec forward_gradlen
+build: reverse forward forward_novec forward_gradlen
 
 clean:
 	rm -rf primal_build_* forward_build_* reverse_build_*
