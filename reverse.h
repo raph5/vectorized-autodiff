@@ -33,15 +33,13 @@
 #ifndef H_AUTODIFF
 #define H_AUTODIFF
 
-#include <cstdio>
-#include <cstdlib>
 #include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
 #include <string.h>
 
-const size_t MAX_TAPE_LENGTH = 1 << 24;  /* correspond to a ~500mb tap */
+const size_t MAX_TAPE_LENGTH = 1 << 24;  /* correspond to a ~330mb tap */
 
 typedef enum {
   NIL = 0,
@@ -79,13 +77,13 @@ typedef struct {
 static tape_t *global_tape = NULL;
 
 /*
- * setting the initial capacity of the tape to a number like 64 will prevent to
- * much call to realloc
+ * setting the initial capacity of the tape to a number like 64 will prevent too
+ * much calls to realloc
  */
 static tape_t *tape_create(size_t capacity) {
   assert(capacity <= MAX_TAPE_LENGTH);
   tape_t *tape = (tape_t *) malloc(sizeof(tape_t));
-  tape_entry_t *entries = (tape_entry_t *) calloc(capacity, sizeof(tape_t));
+  tape_entry_t *entries = (tape_entry_t *) calloc(capacity, sizeof(tape_entry_t));
   if (tape == NULL || entries == NULL) {
     perror("tape malloc");
     exit(1);
@@ -100,6 +98,7 @@ static tape_t *tape_create(size_t capacity) {
 }
 
 static void tape_destroy(tape_t *tape) {
+  free(tape->entries);
   free(tape);
 }
 
@@ -107,9 +106,13 @@ static void tape_extend(tape_t *tape) {
   assert(tape->length < MAX_TAPE_LENGTH);
   if (tape->length == tape->capacity) {
     size_t size = tape->capacity * sizeof(*tape->entries);
-    tape->entries = (tape_entry_t *) realloc(tape, 2 * size);
-    assert(tape->entries != NULL);
-    memset(&tape->entries[tape->capacity], 0, size);
+    tape->entries = (tape_entry_t *) realloc(tape->entries, 2 * size);
+    if (tape->entries == NULL) {
+      perror("tape realloc");
+      exit(1);
+      return;
+    }
+    memset(tape->entries + tape->capacity, 0, size);
     tape->capacity = 2 * tape->capacity;
   }
   ++tape->length;
