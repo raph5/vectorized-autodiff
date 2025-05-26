@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../reverse.h"
+#include "../../reverse.h"
 
 int main() {
   tape_t *tape = tape_create(64);

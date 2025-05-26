@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define GRADLEN 4
-#include "../forward.h"
+#include "../../forward.h"
 
 int main() {
   var_t a = {.grad = {1, 0, 0, 0}, .value = 4};
