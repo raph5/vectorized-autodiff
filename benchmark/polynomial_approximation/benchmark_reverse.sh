@@ -5,7 +5,7 @@ bench() {
   echo "$d","$reverse"
 }
 
-deg=(1 2 $(seq 4 16 512))
+deg=(4 8 $(seq 4 16 512))
 for d in ${deg[@]}; do
   make -j reverse DEG=$d > /dev/null &
 done
