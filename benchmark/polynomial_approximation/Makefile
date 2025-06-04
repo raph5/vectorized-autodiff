@@ -28,8 +28,18 @@ forward_gradlen: forward.cpp
 	$(if $(GRADLEN),,$(error Must set GRADLEN))
 	$(CC) $(CFLAGS) -DDEG=$(DEG) -DGRADLEN=$(GRADLEN) forward.cpp -o forward_build_gradlen_$(DEG)_$(GRADLEN)
 
+parallel: forward_parallel.cpp
+	$(if $(DEG),,$(error Must set DEG))
+	$(CC) $(CFLAGS) -DDEG=$(DEG) forward_parallel.cpp -o parallel_build_$(DEG)
+
+parallel_workers: forward_parallel.cpp
+	$(if $(DEG),,$(error Must set DEG))
+	$(if $(WORKERS),,$(error Must set WORKERS))
+	$(CC) $(CFLAGS) -DDEG=$(DEG) -DRI_WORKERS=$(WORKERS) forward_parallel.cpp -o parallel_build_workers_$(DEG)_$(WORKERS)
+
+
 # use -j option to run build in parallel
-build: reverse forward forward_novec forward_gradlen
+build: reverse forward forward_novec forward_gradlen parallel
 
 clean:
-	rm -rf primal_build_* forward_build_* reverse_build_*
+	rm primal_build_* forward_build_* reverse_build_* parallel_build_*

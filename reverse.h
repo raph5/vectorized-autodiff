@@ -33,7 +33,6 @@
 #ifndef H_AUTODIFF
 #define H_AUTODIFF
 
-#include <cstdint>
 #include <stddef.h>
 #include <stdio.h>
 #include <assert.h>
