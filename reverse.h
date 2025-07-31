@@ -41,7 +41,7 @@
 #include <math.h>
 #include <string.h>
 
-const uint32_t MAX_TAPE_LENGTH = 1 << 24;  /* correspond to a ~330mb tap */
+const uint32_t MAX_TAPE_LENGTH = 1 << 24;  /* correspond to a ~330mb tape */
 
 typedef enum {
   NIL = 0,
