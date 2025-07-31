@@ -1,5 +1,5 @@
 .DS_Store
 *.dSYM
-.pdf
+*.pdf
 .direnv
 .envrc

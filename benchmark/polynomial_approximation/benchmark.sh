@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 gradlen=64
 
@@ -10,7 +10,7 @@ bench() {
   echo "$1","$reverse","$forward","$forward_novec","$forward_gradlen"
 }
 
-deg=(1 2 $(seq 4 4 512))
+deg=(1 $(seq 2 2 512))
 for d in ${deg[@]}; do
   make -j build DEG=$d GRADLEN=$gradlen > /dev/null &
 done
@@ -20,4 +20,4 @@ for d in ${deg[@]}; do
   bench $d
 done
 
-make clean > /dev/null
+make clean &> /dev/null
