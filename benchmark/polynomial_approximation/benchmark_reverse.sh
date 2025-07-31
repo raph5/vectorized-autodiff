@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 bench() {
   reverse=$(./reverse_build_"$1")
