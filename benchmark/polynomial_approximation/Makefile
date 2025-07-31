@@ -39,7 +39,7 @@ parallel_workers: forward_parallel.cpp
 
 
 # use -j option to run build in parallel
-build: reverse forward forward_novec forward_gradlen parallel
+build: reverse forward forward_novec forward_gradlen
 
 clean:
 	rm primal_build_* forward_build_* reverse_build_* parallel_build_*
