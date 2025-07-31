@@ -1,37 +1,41 @@
 
 # Automatic Differentiation - Reverse VS Forward Vectorized
 
-See youtu.be/watch?v=wG_nF1awSSY for an introduction to automatic
-differentiation.
+This repository shares the benchmarks and the AD implementations presented in
+[this article](https://raph5.github.io/blog/vectorized-autodiff/)
 
-When working with automatic differentiation, a common and important question
-arises: should you use forward or reverse mode? The answer isn't always
-straightforward, especially in applications with many inputs and outputs.
-However, for optimization problems—typically characterized by many inputs and a
-single output—reverse mode is often considered the ideal choice. But is it
-really?
+## Build and run
 
-It's true that, in this context, forward mode requires significantly more
-FLOPS. However, it's also *embarrassingly parallel*. And in practice, hardware
-vendors have been optimizing for exactly this kind of workload for decades.
-GPUs are the obvious example, but even modern CPUs are highly efficient at
-vectorized computation thanks to SIMD instruction sets.
+Along with the `reverse.h` and `forward.h` headers, two examples and one
+benchmark are provided.
 
-On the other hand, reverse mode tends to be much more memory intensive. This is
-because it requires storing the entire computation graph for the backward pass.
-For perspective, on a modern CPU, a floating-point operation (FLOP) takes
-roughly 0.01 nanoseconds, while an L2 cache access takes around 10 nanoseconds.
+- `examples/hello_world` is a program that differentiates the function `(a, b,
+c, d) -> (sqrt(a / (b + c*a) + exp(1/d)))^d`
+- `examples/polynomial_approximation` is an example of an application to
+automatic differentiation that I used as benchmarking task to test the
+performances of `reverse.h` and `forward.h`. It's a program that performs a
+gradient descent on polynomial coefficients in order to find a polynomial that
+approximates the function `t -> exp(1/t^2)`
 
-This disparity helps explain why, in some cases, a vectorized forward mode
-implementation can outperform reverse mode—even when the number of inputs far
-exceeds the number of outputs.
+To build either of those two examples, make sure that you have `clang` and
+`make` installed and run the command `make` into the corresponding example
+directory.
 
-This repository includes multiple implementations of reverse and forward mode
-AD inspired by [[1]](https://arxiv.org/abs/1811.05031) and
-[[2]](https://github.com/Janko-dev/autodiff). These implementations aim to be
-representative of the current state of AD libraries.
+`benchmarks/polynomial_approximation` contains multiple .cpp files that measure
+the runtime of 1 iteration of the gradient descent algorithm described earlier.
+Alongside those .cpp files are some bash scripts that gather those measurements
+as functions of some parameter.
 
-# Links
+- `benchmark.sh` compares the different AD implementations relative to gradient
+size.
+- `benchmark_gradlen.sh` compares the runtime of chunked forward AD with
+different values for the parametter α.
+- `benchmark_workers.sh` compares the runtime of parallelized chunked forward
+AD with different workers count.
+- `benchmark_parallel.sh` and `benchmark_reverse.sh` are quick measruements
+of the performances of parallelized chunked forward AD and reverse AD to avoid
+having to run `benchmark.sh` which is slow.
 
-- [[1] A Review of automatic differentiation and its efficient implementation](https://arxiv.org/abs/1811.05031)
-- [[2] Simple Automatic Differentiation library](https://github.com/Janko-dev/autodiff)
+If you happen to interrupt one of those benchmarks, you will be left with a
+series of executables that would have been deleted at the end of the benchmark.
+To get rid of those run `make clean`.
