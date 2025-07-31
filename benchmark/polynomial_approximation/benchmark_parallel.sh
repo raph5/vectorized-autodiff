@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 bench() {
   parallel=$(./parallel_build_"$1")
