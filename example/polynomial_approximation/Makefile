@@ -14,4 +14,4 @@ dev: forward.cpp reverse.cpp forward_parallel.cpp
 	$(CC) -std=c++11 -g -lm -pthread forward_parallel.cpp -o forward_parallel
 
 clean:
-	rm -rf forward reverse
+	rm -rf forward reverse forward_parallel
