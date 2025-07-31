@@ -57,7 +57,7 @@ var_t reimann_integral(var_t P[DEG+1]) {
 }
 
 void polynomial_approximation(float P_coef[DEG+1]) {
-  tape_t tape = tape_create(64);
+  tape_t *tape = tape_create(64);
   tape_load(tape);
 
   var_t P[DEG+1];

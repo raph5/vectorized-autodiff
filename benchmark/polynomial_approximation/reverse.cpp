@@ -56,7 +56,7 @@ int main() {
   start_time = (float) clock() / CLOCKS_PER_SEC;
   for (size_t i = 0; i < 10; ++i) {
     var_t P[DEG+1];
-    tape_t tape = tape_create(64);
+    tape_t *tape = tape_create(64);
     tape_load(tape);
     poly_init(P);
     var_t loss = reimann_integral(P);
